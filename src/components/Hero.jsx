@@ -41,7 +41,7 @@ export default function Hero({ booted }) {
             // initializing portfolio_os v2.0
           </motion.p>
           <h1 className="hero-title">
-            <motion.span className="row grad" variants={item}>
+            <motion.span className="row outline" variants={item}>
               {PROFILE.firstName}
             </motion.span>
             <motion.span className="row grad" variants={item}>

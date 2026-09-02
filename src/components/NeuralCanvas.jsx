@@ -2,10 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const SLATE_PRIMARY = new THREE.Color('#64748B')
-const SLATE_SECONDARY = new THREE.Color('#94A3B8')
-const BLUE_MUTED = new THREE.Color('#38BDF8')
-const VIOLET_MUTED = new THREE.Color('#8B7CF6')
+const NEUTRAL_PRIMARY = new THREE.Color('#737373')
+const NEUTRAL_SECONDARY = new THREE.Color('#A3A3A3')
+const NEUTRAL_DARK = new THREE.Color('#525252')
+const AMBER_ACCENT = new THREE.Color('#F5A623')
 
 function makeSprite() {
   const c = document.createElement('canvas')
@@ -53,10 +53,10 @@ function Cloud({ count, visibleRef }) {
       base[i * 3 + 2] = tmp.z
       const roll = Math.random()
       let c
-      if (roll < 0.10) c = BLUE_MUTED
-      else if (roll < 0.20) c = VIOLET_MUTED
-      else if (roll < 0.55) c = SLATE_PRIMARY
-      else c = SLATE_SECONDARY
+      if (roll < 0.08) c = AMBER_ACCENT
+      else if (roll < 0.22) c = NEUTRAL_DARK
+      else if (roll < 0.62) c = NEUTRAL_PRIMARY
+      else c = NEUTRAL_SECONDARY
       col[i * 3] = c.r
       col[i * 3 + 1] = c.g
       col[i * 3 + 2] = c.b
@@ -213,15 +213,15 @@ function Cloud({ count, visibleRef }) {
         </lineSegments>
         <lineSegments ref={wireRef}>
           <edgesGeometry args={[wireGeo]} />
-          <lineBasicMaterial color="#64748B" transparent opacity={0.032} depthWrite={false} />
+          <lineBasicMaterial color="#525252" transparent opacity={0.028} depthWrite={false} />
         </lineSegments>
       </group>
       <points ref={starsRef} geometry={starsGeo}>
         <pointsMaterial
           size={0.016}
-          color="#64748B"
+          color="#737373"
           transparent
-          opacity={0.14}
+          opacity={0.12}
           depthWrite={false}
           blending={THREE.NormalBlending}
           sizeAttenuation

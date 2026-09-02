@@ -25,17 +25,16 @@ export default function Background() {
       for (let i = 0; i < count; i++) {
         const accentRoll = Math.random()
         let accent = null
-        if (accentRoll < 0.07) accent = 'cyan'
-        else if (accentRoll < 0.12) accent = 'violet'
+        if (accentRoll < 0.07) accent = 'amber'
         particles.push({
           bx: Math.random() * W,
           by: Math.random() * H,
           x: 0,
           y: 0,
-          vx: (Math.random() - 0.5) * 0.22,
-          vy: (Math.random() - 0.5) * 0.22,
-          size: 1.05 + Math.random() * 0.95,
-          baseOpacity: 0.16 + Math.random() * 0.2,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18,
+          size: 1.0 + Math.random() * 0.8,
+          baseOpacity: 0.12 + Math.random() * 0.08,
           opacity: 0,
           accent,
           phase: Math.random() * Math.PI * 2,
@@ -171,8 +170,8 @@ export default function Background() {
         positions[i * 2 + 1] = y
       }
 
-      ctx.lineWidth = 0.7
-      ctx.strokeStyle = 'rgb(16,24,40)'
+      ctx.lineWidth = 0.6
+      ctx.strokeStyle = 'rgb(255,255,255)'
       for (let i = 0; i < count; i++) {
         const ax = positions[i * 2]
         const ay = positions[i * 2 + 1]
@@ -185,8 +184,8 @@ export default function Background() {
           const d2 = dx * dx + dy * dy
           if (d2 < 110 * 110) {
             const d = Math.sqrt(d2)
-            const a = (1 - d / 110) * 0.13 * Math.min(particles[i].opacity, particles[j].opacity) * 2.8
-            if (a < 0.012) continue
+            const a = (1 - d / 110) * 0.08 * Math.min(particles[i].opacity, particles[j].opacity) * 1.8
+            if (a < 0.008) continue
             ctx.globalAlpha = a
             ctx.beginPath()
             ctx.moveTo(ax, ay)
@@ -204,15 +203,12 @@ export default function Background() {
         if (x < -6 || x > W + 6 || y < -6 || y > H + 6) continue
         ctx.beginPath()
         ctx.arc(x, y, p.size, 0, Math.PI * 2)
-        if (p.accent === 'cyan') {
-          ctx.fillStyle = 'rgb(6,182,212)'
-          ctx.globalAlpha = p.opacity * 0.9
-        } else if (p.accent === 'violet') {
-          ctx.fillStyle = 'rgb(124,58,237)'
-          ctx.globalAlpha = p.opacity * 0.88
+        if (p.accent === 'amber') {
+          ctx.fillStyle = 'rgb(245,166,35)'
+          ctx.globalAlpha = Math.min(0.45, p.opacity * 0.95 + 0.08)
         } else {
-          ctx.fillStyle = 'rgb(100,116,139)'
-          ctx.globalAlpha = p.opacity * 0.62
+          ctx.fillStyle = 'rgb(255,255,255)'
+          ctx.globalAlpha = p.opacity * 0.42
         }
         ctx.fill()
       }

@@ -22,11 +22,9 @@ export default function About() {
             <div className="about-who">
               <p className="mono about-kicker">ABOUT / WHO I AM</p>
               <h3 className="about-statement">
-                I build between
+                I build at the intersection of
                 <br />
-                software engineering
-                <br />
-                <span className="about-statement-muted">and AI.</span>
+                software engineering and AI.
               </h3>
             </div>
           </Reveal>
@@ -35,7 +33,7 @@ export default function About() {
             <div className="about-narrative">
               <p>Most of what I enjoy building sits somewhere between software engineering and AI.</p>
               <p>
-                I'm a B.Tech AI &amp; ML graduate who likes turning messy problems into systems that people
+                I'm an AI &amp; ML graduate who likes turning messy problems into systems that people
                 can actually use — from full-stack applications and real-time interfaces to machine-learning
                 pipelines and AI-powered tools. I usually work with Python, JavaScript, React, Node.js,
                 FastAPI and ML/DL stacks, along with databases and Docker-based deployment workflows.

@@ -41,8 +41,8 @@ export default function Contact() {
         </Reveal>
         <Reveal delay={0.16}>
           <p className="contact-sub">
-            Graduating in 2026 and actively hunting for full-stack and ML roles. Whether it's an
-            opportunity, a collaboration or just a good tech debate — my inbox is open.
+            AI/ML graduate actively seeking full-stack and ML engineering opportunities. Whether
+            it's an opportunity, a collaboration or just a good tech debate — my inbox is open.
           </p>
         </Reveal>
         <Reveal delay={0.22}>
@@ -54,7 +54,7 @@ export default function Contact() {
               </button>
             </Magnetic>
             <a className="mail-alt mono" href={`mailto:${PROFILE.email}`}>
-              prefer your own mail app? <ArrowUpRight size={13} />
+              Prefer your own mail app? <ArrowUpRight size={13} />
             </a>
           </div>
         </Reveal>

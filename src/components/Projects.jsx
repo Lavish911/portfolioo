@@ -136,7 +136,7 @@ export default function Projects() {
     <section id="projects" className="section">
       <div className="container">
         <SectionHeading index={m.index} eyebrow={m.eyebrow} title={m.title} />
-        <p className="projects-intro">A selection of systems built for real users — each designed to be understood in seconds.</p>
+        <p className="projects-intro">A selection of systems built to solve practical problems — each designed to be understood in seconds.</p>
 
         <div className="case-featured-stack">
           {featured.map((p, i) => (

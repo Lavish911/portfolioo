@@ -55,32 +55,46 @@ export const TERMINAL = [
 
 export const SKILL_GROUPS = [
   {
-    icon: 'Code2', title: 'Languages', level: 94, color: '#22d3ee',
-    tags: ['Python', 'JavaScript (ES6+)', 'SQL', 'HTML/CSS'],
+    id: 'foundation',
+    number: '01',
+    title: 'FOUNDATION',
+    desc: 'Core languages I use to build application logic, APIs and data workflows.',
+    tags: ['Python', 'JavaScript', 'SQL', 'HTML5', 'CSS3'],
   },
   {
-    icon: 'Globe', title: 'Web Development', level: 91, color: '#a78bfa',
+    id: 'fullstack',
+    number: '02',
+    title: 'FULL-STACK ENGINEERING',
+    desc: 'From responsive interfaces to backend services and real-time communication.',
     tags: ['React.js', 'Node.js', 'Express.js', 'REST APIs', 'Socket.io', 'FastAPI'],
   },
   {
-    icon: 'Brain', title: 'AI / ML', level: 88, color: '#f472b6',
-    tags: ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'XGBoost', 'Keras', 'Scikit-learn'],
+    id: 'aiml',
+    number: '03',
+    title: 'AI / MACHINE LEARNING',
+    desc: 'Building practical ML systems, NLP/CV pipelines and AI-powered applications.',
+    tags: ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'XGBoost', 'Scikit-learn', 'Keras'],
   },
   {
-    icon: 'Database', title: 'Databases', level: 86, color: '#34d399',
-    tags: ['MongoDB', 'SQLite'],
+    id: 'data',
+    number: '04',
+    title: 'DATA & DATABASES',
+    desc: 'Working with structured data, application databases and ML data workflows.',
+    tags: ['MongoDB', 'SQLite', 'Pandas', 'NumPy', 'Matplotlib', 'Excel'],
   },
   {
-    icon: 'Server', title: 'DevOps & Cloud', level: 84, color: '#38bdf8',
+    id: 'devops',
+    number: '05',
+    title: 'DEVOPS & CLOUD',
+    desc: 'Containerization, deployment, Linux environments and development workflows.',
     tags: ['Docker', 'AWS EC2', 'CI/CD', 'Linux', 'Git'],
   },
   {
-    icon: 'Cpu', title: 'Core CS', level: 87, color: '#fbbf24',
-    tags: ['DSA', 'OOP', 'DBMS', 'Agile/Scrum'],
-  },
-  {
-    icon: 'BarChart3', title: 'Analytics', level: 83, color: '#fb7185',
-    tags: ['Pandas', 'NumPy', 'Matplotlib', 'Excel'],
+    id: 'fundamentals',
+    number: '06',
+    title: 'ENGINEERING FUNDAMENTALS',
+    desc: 'The CS foundations behind the systems I build and the problems I solve.',
+    tags: ['Data Structures & Algorithms', 'OOP', 'DBMS', 'Agile / Scrum'],
   },
 ]
 

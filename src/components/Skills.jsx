@@ -1,76 +1,65 @@
-import { motion } from 'framer-motion'
-import { BarChart3, Brain, Code2, Cpu, Database, Globe, Server } from 'lucide-react'
-import { MARQUEE, SECTIONS, SKILL_GROUPS } from '../data/portfolio.js'
+import { SECTIONS, SKILL_GROUPS } from '../data/portfolio.js'
 import Reveal, { SectionHeading } from './Reveal.jsx'
-import TiltCard from './TiltCard.jsx'
 
-const ICONS = {
-  Code2,
-  Globe,
-  Brain,
-  Database,
-  Server,
-  Cpu,
-  BarChart3,
+const STACK_STEPS = ['Frontend', 'Backend / APIs', 'Data / Database', 'AI / ML', 'Deployment']
+
+function StackFlow() {
+  return (
+    <div className="stack-flow" aria-hidden="true">
+      <div className="stack-flow-label mono">STACK FLOW</div>
+      <div className="stack-flow-track">
+        {STACK_STEPS.map((label, i) => (
+          <div key={label} className="stack-node-wrap">
+            <div className="stack-node">
+              <span className="stack-dot" />
+              <span className="stack-text mono">{label}</span>
+            </div>
+            {i < STACK_STEPS.length - 1 && (
+              <div className="stack-connector">
+                <span className="stack-line" />
+                <span className="stack-arrow">↓</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export default function Skills() {
   const m = SECTIONS.skills
-  const row = [...MARQUEE, ...MARQUEE]
   return (
     <section id="skills" className="section">
       <div className="container">
         <SectionHeading index={m.index} eyebrow={m.eyebrow} title={m.title} />
-        <div className="skills-grid">
-          {SKILL_GROUPS.map((g, i) => {
-            const Icon = ICONS[g.icon]
-            return (
-              <Reveal key={g.title} delay={(i % 4) * 0.07}>
-                <TiltCard
-                  className="card skill-card spot"
-                  max={6}
-                  style={{ '--accent': g.color }}
-                >
-                  <div className="skill-icon">
-                    <Icon size={21} />
-                  </div>
-                  <Icon size={104} className="skill-ghost" />
-                  <h3>{g.title}</h3>
-                  <div className="skill-tags">
-                    {g.tags.map((t) => (
-                      <span key={t} className="chip">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="meter-head mono">
-                    <span>PROFICIENCY</span>
-                    <span>{g.level}%</span>
-                  </div>
-                  <div className="meter">
-                    <motion.span
-                      className="meter-fill"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${g.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.25, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </div>
-                </TiltCard>
-              </Reveal>
-            )
-          })}
+        <p className="skills-intro">
+          A structured view of the technologies I work with and how they fit together.
+        </p>
+
+        <div className="capability-grid">
+          {SKILL_GROUPS.map((g) => (
+            <Reveal key={g.id} y={18}>
+              <article className="capability-card">
+                <div className="capability-header">
+                  <span className="capability-number mono">{g.number}</span>
+                  <h3 className="capability-title">{g.title}</h3>
+                </div>
+                <p className="capability-desc">{g.desc}</p>
+                <div className="capability-tags">
+                  {g.tags.map((t) => (
+                    <span key={t} className="chip chip-skill">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
-        <Reveal delay={0.1}>
-          <div className="marquee" aria-hidden="true">
-            <div className="marquee-track">
-              {row.map((t, i) => (
-                <span key={i}>
-                  {t} <b>•</b>
-                </span>
-              ))}
-            </div>
-          </div>
+
+        <Reveal delay={0.08}>
+          <StackFlow />
         </Reveal>
       </div>
     </section>

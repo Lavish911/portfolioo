@@ -2,9 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const CYAN = new THREE.Color('#0e7490')
-const VIOLET = new THREE.Color('#6d28d9')
-const PINK = new THREE.Color('#9d174d')
+const SLATE_PRIMARY = new THREE.Color('#64748B')
+const SLATE_SECONDARY = new THREE.Color('#94A3B8')
+const BLUE_MUTED = new THREE.Color('#38BDF8')
+const VIOLET_MUTED = new THREE.Color('#8B7CF6')
 
 function makeSprite() {
   const c = document.createElement('canvas')
@@ -45,12 +46,17 @@ function Cloud({ count, visibleRef }) {
     for (let i = 0; i < count; i++) {
       const phi = Math.acos(1 - (2 * (i + 0.5)) / count)
       const theta = Math.PI * (1 + Math.sqrt(5)) * i
-      const r = 1.55 + (Math.random() - 0.5) * 0.55
-      tmp.setFromSphericalCoords(r, phi, theta)
+      const rad = 1.55 + (Math.random() - 0.5) * 0.55
+      tmp.setFromSphericalCoords(rad, phi, theta)
       base[i * 3] = tmp.x
       base[i * 3 + 1] = tmp.y
       base[i * 3 + 2] = tmp.z
-      const c = Math.random() < 0.12 ? PINK : Math.random() < 0.52 ? CYAN : VIOLET
+      const roll = Math.random()
+      let c
+      if (roll < 0.10) c = BLUE_MUTED
+      else if (roll < 0.20) c = VIOLET_MUTED
+      else if (roll < 0.55) c = SLATE_PRIMARY
+      else c = SLATE_SECONDARY
       col[i * 3] = c.r
       col[i * 3 + 1] = c.g
       col[i * 3 + 2] = c.b
@@ -183,11 +189,11 @@ function Cloud({ count, visibleRef }) {
             <bufferAttribute attach="attributes-color" args={[nodes.col, 3]} />
           </bufferGeometry>
           <pointsMaterial
-            size={0.042}
+            size={0.038}
             map={tex}
             vertexColors
             transparent
-            opacity={0.72}
+            opacity={0.46}
             depthWrite={false}
             blending={THREE.NormalBlending}
             sizeAttenuation
@@ -198,24 +204,24 @@ function Cloud({ count, visibleRef }) {
             <bufferAttribute ref={linesAttr} attach="attributes-position" args={[linePos, 3]} />
           </bufferGeometry>
           <lineBasicMaterial
-            color="#64748b"
+            color="#475569"
             transparent
-            opacity={0.09}
+            opacity={0.08}
             depthWrite={false}
             blending={THREE.NormalBlending}
           />
         </lineSegments>
         <lineSegments ref={wireRef}>
           <edgesGeometry args={[wireGeo]} />
-          <lineBasicMaterial color="#7c3aed" transparent opacity={0.045} depthWrite={false} />
+          <lineBasicMaterial color="#64748B" transparent opacity={0.032} depthWrite={false} />
         </lineSegments>
       </group>
       <points ref={starsRef} geometry={starsGeo}>
         <pointsMaterial
-          size={0.018}
-          color="#94a3b8"
+          size={0.016}
+          color="#64748B"
           transparent
-          opacity={0.28}
+          opacity={0.14}
           depthWrite={false}
           blending={THREE.NormalBlending}
           sizeAttenuation

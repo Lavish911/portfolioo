@@ -671,8 +671,8 @@ ul {
 
 .nav-burger {
   display: none;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   border: 1px solid var(--line);
   place-items: center;
@@ -849,6 +849,9 @@ ul {
   font-size: 12px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
+  padding: 10px 6px;
+  margin: -10px -6px;
+  min-height: 44px;
 }
 
 .scroll-hint svg {
@@ -2327,7 +2330,9 @@ ul {
   gap: 6px;
   align-items: center;
   border-bottom: 1px dashed var(--line);
-  padding-bottom: 3px;
+  padding: 8px 4px;
+  margin: -8px -4px;
+  min-height: 44px;
   transition: color 0.25s;
 }
 
@@ -2458,16 +2463,24 @@ ul {
   }
 
   .tl-rail {
-    left: 8px;
+    left: 16px;
   }
 
   .tl-item {
     grid-template-columns: 1fr;
-    padding-left: 36px;
+    padding-left: 32px;
+  }
+
+  .tl-content {
+    min-width: 0;
+  }
+
+  .tl-card {
+    padding: 20px 16px;
   }
 
   .tl-dot {
-    left: 8px;
+    left: 16px;
   }
 
   .tl-item:nth-child(even) .tl-content {

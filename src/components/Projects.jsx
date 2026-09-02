@@ -1,10 +1,9 @@
-import { ExternalLink, Github, HeartPulse, Sparkles, Terminal, Vote } from 'lucide-react'
+import { BarChart3, ExternalLink, Github, HeartPulse, Sparkles, Terminal, Vote } from 'lucide-react'
 import { PROJECTS, SECTIONS } from '../data/portfolio.js'
-import { toast } from '../lib/toast.js'
 import Reveal, { SectionHeading } from './Reveal.jsx'
 import TiltCard from './TiltCard.jsx'
 
-const ICONS = { HeartPulse, Sparkles, Terminal, Vote }
+const ICONS = { HeartPulse, Sparkles, Terminal, Vote, BarChart3 }
 
 export default function Projects() {
   const m = SECTIONS.projects
@@ -50,13 +49,15 @@ export default function Projects() {
                         >
                           <Github size={15} /> Source Code
                         </a>
-                        {p.live === 'request' && (
-                          <button
+                        {p.live && (
+                          <a
                             className="btn btn-primary btn-sm"
-                            onClick={() => toast('Live demo shared on request — reach out below!')}
+                            href={p.live}
+                            target="_blank"
+                            rel="noreferrer"
                           >
-                            <ExternalLink size={15} /> Live App
-                          </button>
+                            <ExternalLink size={15} /> Live Demo
+                          </a>
                         )}
                       </div>
                     </div>

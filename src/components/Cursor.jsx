@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { isLowPower, onLowPowerChange } from '../lib/perf.js'
 
 const HUES = [187, 262, 320]
 
@@ -7,8 +6,6 @@ export default function Cursor() {
   const dotRef = useRef(null)
   const ringRef = useRef(null)
   const canvasRef = useRef(null)
-  const lowRef = useRef(isLowPower())
-  const [low, setLowState] = useState(isLowPower())
   const [enabled] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -16,21 +13,12 @@ export default function Cursor() {
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
 
-  useEffect(
-    () =>
-      onLowPowerChange((v) => {
-        lowRef.current = v
-        setLowState(v)
-      }),
-    [],
-  )
-
   useEffect(() => {
     if (!enabled) return
     const dot = dotRef.current
     const ring = ringRef.current
     const canvas = canvasRef.current
-    const ctx = canvas ? canvas.getContext('2d') : null
+    const ctx = canvas.getContext('2d')
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     let W = window.innerWidth
     let H = window.innerHeight
@@ -38,7 +26,6 @@ export default function Cursor() {
     const resize = () => {
       W = window.innerWidth
       H = window.innerHeight
-      if (!canvas) return
       canvas.width = W * dpr
       canvas.height = H * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
@@ -54,7 +41,6 @@ export default function Cursor() {
     const parts = []
 
     const spawn = (x, y, burst = false) => {
-      if (!ctx) return
       const n = burst ? 12 : 1
       for (let i = 0; i < n; i++) {
         const a = Math.random() * Math.PI * 2
@@ -70,13 +56,12 @@ export default function Cursor() {
           hue: HUES[(Math.random() * HUES.length) | 0],
         })
       }
-      if (parts.length > 90) parts.splice(0, parts.length - 90)
+      if (parts.length > 140) parts.splice(0, parts.length - 140)
     }
 
     const onMove = (e) => {
       mouse.x = e.clientX
       mouse.y = e.clientY
-      if (!ctx || lowRef.current) return
       const dx = mouse.x - lastSpawn.x
       const dy = mouse.y - lastSpawn.y
       if (dx * dx + dy * dy > 90) {
@@ -91,9 +76,7 @@ export default function Cursor() {
       ring.classList.toggle('hot', hover)
     }
 
-    const onDown = () => {
-      if (!lowRef.current) spawn(mouse.x, mouse.y, true)
-    }
+    const onDown = () => spawn(mouse.x, mouse.y, true)
 
     let raf
     const loop = () => {
@@ -102,23 +85,21 @@ export default function Cursor() {
       const s = hover ? 2 : 1
       dot.style.transform = `translate(${mouse.x}px, ${mouse.y}px) translate(-50%, -50%) scale(${hover ? 0.45 : 1})`
       ring.style.transform = `translate(${ringPos.x}px, ${ringPos.y}px) translate(-50%, -50%) scale(${s})`
-      if (ctx) {
-        ctx.clearRect(0, 0, W, H)
-        for (let i = parts.length - 1; i >= 0; i--) {
-          const p = parts[i]
-          p.x += p.vx
-          p.y += p.vy
-          p.vy += 0.012
-          p.life -= p.decay
-          if (p.life <= 0) {
-            parts.splice(i, 1)
-            continue
-          }
-          ctx.beginPath()
-          ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2)
-          ctx.fillStyle = `hsla(${p.hue}, 92%, 66%, ${p.life * 0.55})`
-          ctx.fill()
+      ctx.clearRect(0, 0, W, H)
+      for (let i = parts.length - 1; i >= 0; i--) {
+        const p = parts[i]
+        p.x += p.vx
+        p.y += p.vy
+        p.vy += 0.012
+        p.life -= p.decay
+        if (p.life <= 0) {
+          parts.splice(i, 1)
+          continue
         }
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2)
+        ctx.fillStyle = `hsla(${p.hue}, 92%, 66%, ${p.life * 0.55})`
+        ctx.fill()
       }
       raf = requestAnimationFrame(loop)
     }
@@ -137,12 +118,12 @@ export default function Cursor() {
       window.removeEventListener('mouseover', onOver)
       window.removeEventListener('mousedown', onDown)
     }
-  }, [enabled, low])
+  }, [enabled])
 
   if (!enabled) return null
   return (
     <>
-      {!low && <canvas ref={canvasRef} className="cursor-trail" aria-hidden="true" />}
+      <canvas ref={canvasRef} className="cursor-trail" aria-hidden="true" />
       <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
       <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
     </>

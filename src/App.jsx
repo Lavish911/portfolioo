@@ -14,6 +14,7 @@ import Preloader from './components/Preloader.jsx'
 import ProgressBar from './components/ProgressBar.jsx'
 import Projects from './components/Projects.jsx'
 import Skills from './components/Skills.jsx'
+import DebugProbe from './components/DebugProbe.jsx'
 import ToastHost from './components/ToastHost.jsx'
 
 const KONAMI = [
@@ -67,6 +68,7 @@ export default function App() {
 
   return (
     <>
+      <DebugProbe />
       <Preloader onDone={() => setBooted(true)} />
       <Cursor />
       <ProgressBar />

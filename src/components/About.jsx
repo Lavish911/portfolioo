@@ -18,33 +18,45 @@ function Terminal() {
     let li = 0
     let ci = 0
     let timer
+    let cancelled = false
     const typeCmd = () => {
-      const text = TERMINAL[li].s
+      if (cancelled) return
+      if (li >= TERMINAL.length || !TERMINAL[li]) return
+      const entry = TERMINAL[li]
+      if (!entry || typeof entry.s !== 'string') return
+      const text = entry.s
       ci++
       setCur(`$ ${text.slice(0, ci)}`)
       if (ci < text.length) {
         timer = setTimeout(typeCmd, 20 + Math.random() * 28)
       } else {
         timer = setTimeout(() => {
+          if (cancelled) return
+          if (li >= TERMINAL.length || !TERMINAL[li]) return
           setLines((l) => [...l, { k: 'cmd', s: `$ ${text}` }])
           setCur('')
           li++
-          timer = setTimeout(nextOut, 220)
+          if (li < TERMINAL.length) timer = setTimeout(nextOut, 220)
         }, 260)
       }
     }
     const nextOut = () => {
+      if (cancelled) return
+      if (li >= TERMINAL.length || !TERMINAL[li]) return
+      const entry = TERMINAL[li]
+      if (!entry || typeof entry.s !== 'string') return
+      setLines((l) => [...l, { k: 'out', s: entry.s }])
+      li++
       if (li < TERMINAL.length) {
-        setLines((l) => [...l, { k: 'out', s: TERMINAL[li].s }])
-        li++
-        if (li < TERMINAL.length) {
-          ci = 0
-          timer = setTimeout(typeCmd, 420)
-        }
+        ci = 0
+        timer = setTimeout(typeCmd, 420)
       }
     }
     typeCmd()
-    return () => clearTimeout(timer)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
   }, [inView])
 
   return (

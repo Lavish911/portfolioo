@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export default function TiltCard({ children, className = '', max = 7, style }) {
@@ -7,6 +7,16 @@ export default function TiltCard({ children, className = '', max = 7, style }) {
   const ryRaw = useMotionValue(0)
   const rotateX = useSpring(rxRaw, { stiffness: 160, damping: 18 })
   const rotateY = useSpring(ryRaw, { stiffness: 160, damping: 18 })
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || !style) return
+    Object.entries(style).forEach(([k, v]) => {
+      try {
+        el.style.setProperty(k, v)
+      } catch {}
+    })
+  }, [style])
 
   const onMove = (e) => {
     const el = ref.current
@@ -29,7 +39,7 @@ export default function TiltCard({ children, className = '', max = 7, style }) {
     <motion.div
       ref={ref}
       className={`tilt ${className}`}
-      style={{ rotateX, rotateY, transformPerspective: 1100, ...style }}
+      style={{ rotateX, rotateY, transformPerspective: 1100 }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >

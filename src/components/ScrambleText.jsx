@@ -33,15 +33,19 @@ export default function ScrambleText({ text, className = '', delay = 0 }) {
     let raf
     const start = setTimeout(() => {
       const tick = () => {
-        f++
-        const reveal = Math.floor(f / 2)
-        let out = ''
-        for (let i = 0; i < len; i++) {
-          out += i < reveal ? text[i] : text[i] === ' ' ? ' ' : GLYPHS[(Math.random() * GLYPHS.length) | 0]
+        try {
+          f++
+          const reveal = Math.floor(f / 2)
+          let out = ''
+          for (let i = 0; i < len; i++) {
+            out += i < reveal ? text[i] : text[i] === ' ' ? ' ' : GLYPHS[(Math.random() * GLYPHS.length) | 0]
+          }
+          el.textContent = out
+          if (reveal <= len) raf = requestAnimationFrame(tick)
+          else el.textContent = text
+        } catch (e) {
+          console.error('[Scramble] tick error', e)
         }
-        el.textContent = out
-        if (reveal <= len) raf = requestAnimationFrame(tick)
-        else el.textContent = text
       }
       raf = requestAnimationFrame(tick)
     }, delay * 1000)

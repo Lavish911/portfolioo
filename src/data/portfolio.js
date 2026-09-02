@@ -73,7 +73,7 @@ export const SKILL_GROUPS = [
     number: '03',
     title: 'AI / MACHINE LEARNING',
     desc: 'Building practical ML systems, NLP/CV pipelines and AI-powered applications.',
-    tags: ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'XGBoost', 'Scikit-learn', 'Keras'],
+    tags: ['Machine Learning', 'Deep Learning', 'NLP', 'Computer Vision', 'XGBoost', 'Scikit-learn', 'TensorFlow / Keras', 'LLMs', 'Prompt Engineering'],
   },
   {
     id: 'data',

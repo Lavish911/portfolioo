@@ -115,68 +115,104 @@ function Cloud({ count, visibleRef }) {
   const dir = useMemo(() => new THREE.Vector3(), [])
 
   useFrame((state, delta) => {
-    if (prefersReduced) return
-    if (visibleRef && !visibleRef.current) return
-    if (document.hidden) return
-    const t = state.clock.elapsedTime
-    mp.set(pointer.x, pointer.y, 0.5).unproject(camera)
-    dir.copy(mp).sub(camera.position).normalize()
-    const tt = -camera.position.z / dir.z
-    mp.copy(camera.position).add(dir.multiplyScalar(tt))
+    try {
+      if (prefersReduced) return
+      if (visibleRef && !visibleRef.current) return
+      if (document.hidden) return
+      if (!Number.isFinite(delta) || delta <= 0 || delta > 0.2) delta = 0.016
+      const t = state.clock.elapsedTime
+      if (!Number.isFinite(t)) return
+      mp.set(pointer.x, pointer.y, 0.5).unproject(camera)
+      dir.copy(mp).sub(camera.position).normalize()
+      if (!Number.isFinite(dir.x) || !Number.isFinite(dir.y) || !Number.isFinite(dir.z)) return
+      const denom = dir.z
+      if (!Number.isFinite(denom) || Math.abs(denom) < 1e-6) return
+      const tt = -camera.position.z / denom
+      if (!Number.isFinite(tt)) return
+      mp.copy(camera.position).add(dir.multiplyScalar(tt))
+      if (!Number.isFinite(mp.x) || !Number.isFinite(mp.y) || !Number.isFinite(mp.z)) return
 
-    const { base, wobDir, phase, speed } = nodes
-    for (let i = 0; i < count; i++) {
-      const ix = i * 3
-      const w = Math.sin(t * speed[i] + phase[i]) * 0.03
-      let x = base[ix] + wobDir[ix] * w
-      let y = base[ix + 1] + wobDir[ix + 1] * w
-      let z = base[ix + 2] + wobDir[ix + 2] * w
-      const dx = x - mp.x
-      const dy = y - mp.y
-      const dz = z - mp.z
-      const d2 = dx * dx + dy * dy + dz * dz
-      disp[ix] *= 0.9
-      disp[ix + 1] *= 0.9
-      disp[ix + 2] *= 0.9
-      if (d2 < 0.7225 && d2 > 0.0001) {
-        const d = Math.sqrt(d2)
-        const push = ((1 - d / 0.85) * 0.05) / d
-        disp[ix] += dx * push
-        disp[ix + 1] += dy * push
-        disp[ix + 2] += dz * push
+      const { base, wobDir, phase, speed } = nodes
+      for (let i = 0; i < count; i++) {
+        const ix = i * 3
+        const w = Math.sin(t * speed[i] + phase[i]) * 0.03
+        let x = base[ix] + wobDir[ix] * w
+        let y = base[ix + 1] + wobDir[ix + 1] * w
+        let z = base[ix + 2] + wobDir[ix + 2] * w
+        if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
+          x = base[ix]
+          y = base[ix + 1]
+          z = base[ix + 2]
+        }
+        const dx = x - mp.x
+        const dy = y - mp.y
+        const dz = z - mp.z
+        const d2 = dx * dx + dy * dy + dz * dz
+        disp[ix] *= 0.9
+        disp[ix + 1] *= 0.9
+        disp[ix + 2] *= 0.9
+        if (d2 < 0.7225 && d2 > 0.0001) {
+          const d = Math.sqrt(d2)
+          if (!Number.isFinite(d) || d < 1e-6) {
+          } else {
+            const push = ((1 - d / 0.85) * 0.05) / d
+            if (Number.isFinite(push)) {
+              disp[ix] += dx * push
+              disp[ix + 1] += dy * push
+              disp[ix + 2] += dz * push
+            }
+          }
+        }
+        const nx = x + disp[ix]
+        const ny = y + disp[ix + 1]
+        const nz = z + disp[ix + 2]
+        livePos[ix] = Number.isFinite(nx) ? nx : x
+        livePos[ix + 1] = Number.isFinite(ny) ? ny : y
+        livePos[ix + 2] = Number.isFinite(nz) ? nz : z
       }
-      livePos[ix] = x + disp[ix]
-      livePos[ix + 1] = y + disp[ix + 1]
-      livePos[ix + 2] = z + disp[ix + 2]
-    }
 
-    if (pointsAttr.current) pointsAttr.current.needsUpdate = true
+      if (pointsAttr.current) pointsAttr.current.needsUpdate = true
 
-    for (let s = 0; s < segs.length; s += 2) {
-      const a = segs[s] * 3
-      const b = segs[s + 1] * 3
-      const o = (s / 2) * 6
-      linePos[o] = livePos[a]
-      linePos[o + 1] = livePos[a + 1]
-      linePos[o + 2] = livePos[a + 2]
-      linePos[o + 3] = livePos[b]
-      linePos[o + 4] = livePos[b + 1]
-      linePos[o + 5] = livePos[b + 2]
-    }
-    if (linesAttr.current) linesAttr.current.needsUpdate = true
+      for (let s = 0; s < segs.length; s += 2) {
+        const a = segs[s] * 3
+        const b = segs[s + 1] * 3
+        const o = (s / 2) * 6
+        const ax = livePos[a]
+        const ay = livePos[a + 1]
+        const az = livePos[a + 2]
+        const bx = livePos[b]
+        const by = livePos[b + 1]
+        const bz = livePos[b + 2]
+        if (![ax, ay, az, bx, by, bz].every(Number.isFinite)) continue
+        linePos[o] = ax
+        linePos[o + 1] = ay
+        linePos[o + 2] = az
+        linePos[o + 3] = bx
+        linePos[o + 4] = by
+        linePos[o + 5] = bz
+      }
+      if (linesAttr.current) linesAttr.current.needsUpdate = true
 
-    const g = groupRef.current
-    if (g) {
-      spin.current.base += delta * 0.07
-      g.rotation.y += (pointer.x * 0.3 + spin.current.base - g.rotation.y) * 0.045
-      g.rotation.x += (-pointer.y * 0.18 - g.rotation.x) * 0.045
-    }
-    if (wireRef.current) {
-      wireRef.current.rotation.y -= delta * 0.06
-      wireRef.current.rotation.z += delta * 0.02
-    }
-    if (starsRef.current) {
-      starsRef.current.rotation.y += delta * 0.008
+      const g = groupRef.current
+      if (g) {
+        spin.current.base = (spin.current.base + delta * 0.07) % (Math.PI * 2)
+        const targetY = pointer.x * 0.3 + spin.current.base
+        const targetX = -pointer.y * 0.18
+        if (Number.isFinite(targetY) && Number.isFinite(targetX)) {
+          g.rotation.y += (targetY - g.rotation.y) * 0.045
+          g.rotation.x += (targetX - g.rotation.x) * 0.045
+        }
+      }
+      if (wireRef.current) {
+        wireRef.current.rotation.y -= delta * 0.06
+        wireRef.current.rotation.z += delta * 0.02
+      }
+      if (starsRef.current) {
+        starsRef.current.rotation.y += delta * 0.008
+        if (!Number.isFinite(starsRef.current.rotation.y)) starsRef.current.rotation.y = 0
+      }
+    } catch (e) {
+      console.error('[NeuralCanvas] frame error:', e)
     }
   })
 
@@ -261,6 +297,28 @@ export default function NeuralCanvas() {
         camera={{ position: [0, 0, 3.6], fov: 50 }}
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         frameloop="always"
+        onCreated={({ gl }) => {
+          const canvas = gl.domElement
+          if (!canvas) return
+          const onLost = (e) => {
+            e.preventDefault()
+            console.warn('[NeuralCanvas] WebGL context lost')
+          }
+          const onRestored = () => {
+            console.warn('[NeuralCanvas] WebGL context restored')
+          }
+          canvas.addEventListener('webglcontextlost', onLost, false)
+          canvas.addEventListener('webglcontextrestored', onRestored, false)
+          const checkSize = () => {
+            if (canvas.width === 0 || canvas.height === 0) {
+              console.warn('[NeuralCanvas] canvas dimensions invalid', canvas.width, canvas.height)
+            }
+          }
+          const visHandler = () => {
+            if (!document.hidden) checkSize()
+          }
+          document.addEventListener('visibilitychange', visHandler)
+        }}
       >
         <Cloud count={count} visibleRef={visibleRef} />
       </Canvas>

@@ -10,8 +10,13 @@ export function initLenis() {
     smoothWheel: true,
   })
   const raf = (time) => {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
+    try {
+      if (lenis) lenis.raf(time)
+    } catch (e) {
+      console.error('[Lenis] raf error:', e)
+    } finally {
+      requestAnimationFrame(raf)
+    }
   }
   requestAnimationFrame(raf)
   return lenis

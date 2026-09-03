@@ -4,7 +4,7 @@ Personal portfolio for **Lavish Rahangdale**, an AI/ML & Full-Stack Developer fo
 
 ## Live Portfolio
 
-**Portfolio:** https://lavishrahangdale.vercel.app
+**Portfolio:** https://lavishs-portfolio.netlify.app
 
 > If the live deployment URL changes, update this link before sharing the repository publicly.
 
@@ -36,7 +36,7 @@ Rather than using a static template, the site combines a conventional React UI w
 | 3D / WebGL | Three.js, React Three Fiber |
 | Icons | Lucide React |
 | Build | Vite |
-| Deployment | Vercel |
+| Deployment | Netlify |
 
 ## Featured Work
 

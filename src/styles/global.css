@@ -5,7 +5,7 @@
   --surface: #151515;
   --surface-2: #191919;
   --text: #F3F1EC;
-  --muted: #A1A09A;
+  --muted: #B0AEA7;
   --subtle: #73736D;
   --accent: #F5A623;
   --accent-light: #FFC857;
@@ -1029,35 +1029,38 @@ ul {
 .approach-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 32px 28px;
+  padding-top: 4px;
 }
 
 .approach-card {
-  padding: 18px 16px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(20, 20, 20, 0.48);
-  transition: border-color 0.22s, background 0.22s, transform 0.22s;
+  padding: 20px 0 0;
+  border: none;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  transition: border-color 0.22s;
 }
 
 .approach-card:hover {
   border-color: rgba(255,255,255,0.11);
-  background: rgba(24, 24, 24, 0.72);
-  transform: translateY(-1px);
+  background: transparent;
+  transform: none;
+  border-top-color: rgba(245, 166, 35, 0.22);
 }
 
 .approach-number {
   font-size: 11px;
   color: var(--accent);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 .approach-card p.approach-desc {
-  margin-top: 8px;
+  margin-top: 10px;
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 13.5px;
+  line-height: 1.65;
 }
 
 .about-signal {

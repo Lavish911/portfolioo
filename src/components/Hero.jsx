@@ -56,12 +56,12 @@ export default function Hero({ booted }) {
           </motion.p>
           <motion.div className="hero-cta" variants={item}>
             <Magnetic>
-              <button className="btn btn-primary" onClick={() => scrollToId('#projects')}>
+              <button className="btn btn-ghost" onClick={() => scrollToId('#projects')}>
                 Explore My Work <ArrowUpRight size={17} />
               </button>
             </Magnetic>
             <Magnetic>
-              <button className="btn btn-ghost" onClick={() => scrollToId('#contact')}>
+              <button className="btn btn-primary" onClick={() => scrollToId('#contact')}>
                 Get In Touch
               </button>
             </Magnetic>

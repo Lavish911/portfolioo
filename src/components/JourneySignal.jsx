@@ -70,12 +70,12 @@ function SignalCloud({ count, activeIndex, visibleRef }) {
     return new Float32Array(segs)
   }, [])
 
-  const visibleLineLen = useMemo(() => {
+  const visibleVertexCount = useMemo(() => {
     if (activeIndex < 0) return 0
-    return (activeIndex + 1) * 6
-  }, [activeIndex])
+    return Math.min((activeIndex + 1) * 2, linePositions.length / 3)
+  }, [activeIndex, linePositions])
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (prefersReduced) return
     if (visibleRef && !visibleRef.current) return
     if (document.hidden) return
@@ -101,23 +101,11 @@ function SignalCloud({ count, activeIndex, visibleRef }) {
       groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.04
       groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.04
     }
-
-    if (linesRef.current) {
-      linesRef.current.visible = true
-    }
-    if (visiblePointsRef.current) {
-      const len = Math.min(visibleLineLen, linePositions.length)
-      const geom = visiblePointsRef.current.geometry
-      const posAttr = geom.getAttribute('position')
-      if (posAttr) {
-        posAttr.needsUpdate = true
-      }
-    }
   })
 
   return (
     <group ref={groupRef}>
-      <points>
+      <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
           <bufferAttribute attach="attributes-color" args={[colors, 3]} />
@@ -131,8 +119,8 @@ function SignalCloud({ count, activeIndex, visibleRef }) {
         <lineBasicMaterial color={NEUTRAL} transparent opacity={0.13} depthWrite={false} />
       </lineSegments>
       <lineSegments ref={visiblePointsRef}>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[linePositions.slice(0, visibleLineLen), 3]} />
+        <bufferGeometry drawRange={{ start: 0, count: visibleVertexCount }}>
+          <bufferAttribute attach="attributes-position" args={[linePositions, 3]} />
         </bufferGeometry>
         <lineBasicMaterial color={AMBER} transparent opacity={0.52} depthWrite={false} />
       </lineSegments>

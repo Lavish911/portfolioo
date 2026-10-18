@@ -52,7 +52,8 @@ export default function App() {
         toast('MATRIX MODE OFFLINE')
         return
       }
-      buf = [...buf, e.key].slice(-KONAMI.length)
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key
+      buf = [...buf, key].slice(-KONAMI.length)
       if (buf.join(',') === KONAMI.join(',')) {
         buf = []
         setMatrix((m) => {

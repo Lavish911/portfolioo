@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useScroll, useSpring } from 'framer-motion'
-import { Briefcase, GraduationCap, MapPin } from 'lucide-react'
+import { Briefcase, GraduationCap } from 'lucide-react'
 import { EDUCATION, SECTIONS, TIMELINE } from '../data/portfolio.js'
 import Reveal, { SectionHeading } from './Reveal.jsx'
 import JourneySignal from './JourneySignal.jsx'
@@ -62,20 +62,13 @@ function JourneyEntry({ entry, index, active, onVisible }) {
   const hasEnteredRef = useRef(false)
 
   useEffect(() => {
-    if (isInView) onVisible(index)
+    if (isInView) {
+      hasEnteredRef.current = true
+      onVisible(index)
+    }
   }, [isInView, index, onVisible])
 
   const prefersReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const animateProps = prefersReduced
-    ? { opacity: 1, y: 0 }
-    : hasEnteredRef.current
-      ? { opacity: 1, y: 0 }
-      : { opacity: 0, y: 16 }
-
-  useEffect(() => {
-    if (isInView) hasEnteredRef.current = true
-  }, [isInView])
-
   const Icon = entry.icon
 
   return (
@@ -140,8 +133,6 @@ export default function Experience() {
     offset: ['start 0.72', 'end 0.58'],
   })
   const scaleY = useSpring(scrollYProgress, { stiffness: 90, damping: 24 })
-
-  const prefersReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   return (
     <section id="experience" className="section journey-section">

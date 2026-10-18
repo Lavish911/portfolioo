@@ -105,6 +105,48 @@ export const MARQUEE = [
 
 export const PROJECTS = [
   {
+    id: 'invoiceiq',
+    featured: true,
+    tag: 'ENTERPRISE FINTECH • AI OCR • MULTI-TENANT SAAS',
+    title: 'InvoiceIQ',
+    sub: 'Production-grade invoice automation & OCR — 2026',
+    desc: 'Production-deployed, multi-tenant invoice automation platform that extracts structured financial data via asynchronous OCR and routes invoices through concurrency-safe approval workflows.',
+    problem:
+      'Manual invoice processing across organizations is slow, error-prone, and vulnerable to duplicate entries, stale concurrent approvals, and cross-tenant data leaks.',
+    solution:
+      'Built a modular Spring Boot monolith paired with a stateless Python FastAPI/Tesseract OCR sidecar, Next.js 16 frontend, and AWS S3 storage—handling document upload, async JobRunr extraction, server-computed BigDecimal totals, and rule-based approval routing.',
+    tech: [
+      'Java 21',
+      'Spring Boot 3',
+      'Next.js 16',
+      'TypeScript',
+      'FastAPI',
+      'Tesseract OCR',
+      'PostgreSQL',
+      'JobRunr',
+      'AWS S3',
+      'Docker',
+    ],
+    accent: '#F5A623',
+    accent2: '#FFC857',
+    icon: 'Terminal',
+    orbit: ['multi-tenant', 'async OCR', 'concurrency-safe'],
+    arch: [
+      'Next.js 16 Frontend (/api Proxy)',
+      'Spring Boot 3 API (JWT / RBAC / Tenancy)',
+      'JobRunr Async Queue → FastAPI + Tesseract OCR',
+      'PostgreSQL 15 (Flyway) + Private AWS S3',
+    ],
+    highlights: [
+      'Enforced strict shared-schema multi-tenancy using JWT-bound tenant context, scoped repository queries, and fail-closed Hibernate filters with rotating SHA-256 refresh tokens.',
+      'Engineered an after-commit asynchronous OCR pipeline using JobRunr, PyMuPDF, and Tesseract with atomic document claiming and automatic vendor matching.',
+      'Guaranteed financial and concurrency correctness via BigDecimal/NUMERIC(19,4) server-side totals, payload-hashed idempotency keys, and @Version optimistic locking verified by CountDownLatch race tests.',
+      'Deployed to production on Railway + AWS S3 with an isolated, self-cleaning public demo workspace and one-click Submitter/Approver role switching.',
+    ],
+    live: 'https://frontend-production-044d3.up.railway.app',
+    source: 'https://github.com/Lavish911/invoiceiq',
+  },
+  {
     id: 'copilot',
     tag: 'REAL-TIME AI • FULL-STACK',
     title: 'Interview Copilot AI',

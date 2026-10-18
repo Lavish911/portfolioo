@@ -114,6 +114,14 @@ function Cloud({ count, visibleRef }) {
   const mp = useMemo(() => new THREE.Vector3(), [])
   const dir = useMemo(() => new THREE.Vector3(), [])
 
+  useEffect(() => {
+    return () => {
+      tex.dispose()
+      starsGeo.dispose()
+      wireGeo.dispose()
+    }
+  }, [tex, starsGeo, wireGeo])
+
   useFrame((state, delta) => {
     try {
       if (prefersReduced) return
@@ -153,8 +161,7 @@ function Cloud({ count, visibleRef }) {
         disp[ix + 2] *= 0.9
         if (d2 < 0.7225 && d2 > 0.0001) {
           const d = Math.sqrt(d2)
-          if (!Number.isFinite(d) || d < 1e-6) {
-          } else {
+          if (Number.isFinite(d) && d >= 1e-6) {
             const push = ((1 - d / 0.85) * 0.05) / d
             if (Number.isFinite(push)) {
               disp[ix] += dx * push
@@ -309,15 +316,6 @@ export default function NeuralCanvas() {
           }
           canvas.addEventListener('webglcontextlost', onLost, false)
           canvas.addEventListener('webglcontextrestored', onRestored, false)
-          const checkSize = () => {
-            if (canvas.width === 0 || canvas.height === 0) {
-              console.warn('[NeuralCanvas] canvas dimensions invalid', canvas.width, canvas.height)
-            }
-          }
-          const visHandler = () => {
-            if (!document.hidden) checkSize()
-          }
-          document.addEventListener('visibilitychange', visHandler)
         }}
       >
         <Cloud count={count} visibleRef={visibleRef} />

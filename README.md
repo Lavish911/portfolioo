@@ -40,6 +40,11 @@ Rather than using a static template, the site combines a conventional React UI w
 
 ## Featured Work
 
+### InvoiceIQ
+Production-deployed, multi-tenant invoice automation platform built with Java 21, Spring Boot, Next.js 16, Python FastAPI/Tesseract OCR, JobRunr, PostgreSQL, AWS S3, and Docker.
+
+**Focus:** multi-tenant isolation, asynchronous OCR pipelines, concurrency-safe approval workflows, and cloud deployment.
+
 ### Interview Copilot AI
 Real-time AI interview practice platform using React, Node.js, Socket.io, and Gemini API.
 

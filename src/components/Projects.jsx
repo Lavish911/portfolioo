@@ -1,6 +1,5 @@
 import { BarChart3, ExternalLink, FlaskConical, Github, HeartPulse, Sparkles, Terminal, Vote } from 'lucide-react'
 import { PROJECTS, SECTIONS } from '../data/portfolio.js'
-import { sortFeaturedProjects } from '../lib/role.js'
 import Reveal, { SectionHeading } from './Reveal.jsx'
 
 const ICONS = { HeartPulse, Sparkles, Terminal, Vote, BarChart3, FlaskConical }
@@ -130,7 +129,7 @@ function CompactCard({ project, index }) {
 
 export default function Projects() {
   const m = SECTIONS.projects
-  const featured = sortFeaturedProjects(PROJECTS.filter((p) => p.featured))
+  const featured = PROJECTS.filter((p) => p.featured)
   const compact = PROJECTS.filter((p) => !p.featured)
 
   return (

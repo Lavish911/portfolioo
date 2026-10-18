@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { PROFILE } from '../data/portfolio.js'
 import { scrollToId } from '../lib/scroll.js'
+import { getActiveTrack } from '../lib/role.js'
 import Magnetic from './Magnetic.jsx'
 import NeuralCanvas from './NeuralCanvas.jsx'
 import RoleRotator from './RoleRotator.jsx'
@@ -22,6 +23,7 @@ const item = {
 }
 
 export default function Hero({ booted }) {
+  const { resumeUrl } = getActiveTrack()
   const { scrollY } = useScroll()
   const yTitle = useTransform(scrollY, [0, 700], [0, -110])
   const oTitle = useTransform(scrollY, [0, 520], [1, 0])
@@ -64,6 +66,11 @@ export default function Hero({ booted }) {
               <button className="btn btn-primary" onClick={() => scrollToId('#contact')}>
                 Get In Touch
               </button>
+            </Magnetic>
+            <Magnetic>
+              <a className="btn btn-ghost" href={resumeUrl} target="_blank" rel="noreferrer">
+                Resume <ArrowUpRight size={17} />
+              </a>
             </Magnetic>
           </motion.div>
         </motion.div>

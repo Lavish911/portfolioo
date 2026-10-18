@@ -59,14 +59,14 @@ export const SKILL_GROUPS = [
     number: '01',
     title: 'FOUNDATION',
     desc: 'Core languages I use to build application logic, APIs and data workflows.',
-    tags: ['Python', 'JavaScript', 'SQL', 'HTML5', 'CSS3'],
+    tags: ['Python', 'Java', 'TypeScript', 'JavaScript', 'SQL', 'HTML5', 'CSS3'],
   },
   {
     id: 'fullstack',
     number: '02',
     title: 'FULL-STACK ENGINEERING',
     desc: 'From responsive interfaces to backend services and real-time communication.',
-    tags: ['React.js', 'Node.js', 'Express.js', 'REST APIs', 'Socket.io', 'FastAPI'],
+    tags: ['React.js', 'Next.js', 'Spring Boot', 'Node.js', 'Express.js', 'REST APIs', 'Socket.io', 'FastAPI'],
   },
   {
     id: 'aiml',
@@ -80,14 +80,14 @@ export const SKILL_GROUPS = [
     number: '04',
     title: 'DATA & DATABASES',
     desc: 'Working with structured data, application databases and ML data workflows.',
-    tags: ['MongoDB', 'SQLite', 'Pandas', 'NumPy', 'Matplotlib', 'Excel'],
+    tags: ['PostgreSQL', 'MongoDB', 'SQLite', 'Pandas', 'NumPy', 'Matplotlib', 'Excel'],
   },
   {
     id: 'devops',
     number: '05',
     title: 'DEVOPS & CLOUD',
     desc: 'Containerization, deployment, Linux environments and development workflows.',
-    tags: ['Docker', 'AWS EC2', 'CI/CD', 'Linux', 'Git'],
+    tags: ['Docker', 'AWS S3', 'AWS EC2', 'CI/CD', 'Linux', 'Git'],
   },
   {
     id: 'fundamentals',

@@ -35,8 +35,7 @@ export default function About() {
               <p>
                 I'm an AI &amp; ML graduate who likes turning messy problems into systems that people
                 can actually use — from full-stack applications and real-time interfaces to machine-learning
-                pipelines and AI-powered tools. I usually work with Python, JavaScript, React, Node.js,
-                FastAPI and ML/DL stacks, along with databases and Docker-based deployment workflows.
+                pipelines and AI-powered tools. I usually work with Python, Java, TypeScript, JavaScript, React, Next.js, Spring Boot, Node.js, FastAPI and ML/DL stacks, along with PostgreSQL, AWS S3 and Docker-based deployment workflows.
               </p>
               <p>
                 I care about the part after the prototype: how the pieces connect, how the system behaves

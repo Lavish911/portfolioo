@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-const HUES = [187, 262, 320]
+const HUES = [36, 42, 48]
 
 export default function Cursor() {
   const dotRef = useRef(null)

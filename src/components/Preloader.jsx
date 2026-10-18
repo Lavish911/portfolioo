@@ -6,12 +6,25 @@ export default function Preloader({ onDone }) {
   const [gone, setGone] = useState(false)
 
   useEffect(() => {
+    try {
+      if (sessionStorage.getItem('portfolio_booted') === '1') {
+        onDone()
+        setGone(true)
+        return
+      }
+    } catch {
+      // Ignore sessionStorage errors
+    }
+
     let v = 0
     const id = setInterval(() => {
       v += Math.random() * 15 + 7
       if (v >= 100) {
         v = 100
         clearInterval(id)
+        try {
+          sessionStorage.setItem('portfolio_booted', '1')
+        } catch {}
         setTimeout(() => {
           setOut(true)
           onDone()

@@ -1,6 +1,7 @@
 import { BarChart3, ExternalLink, FlaskConical, Github, HeartPulse, Sparkles, Terminal, Vote } from 'lucide-react'
 import { PROJECTS, SECTIONS } from '../data/portfolio.js'
 import Reveal, { SectionHeading } from './Reveal.jsx'
+import TiltCard from './TiltCard.jsx'
 
 const ICONS = { HeartPulse, Sparkles, Terminal, Vote, BarChart3, FlaskConical }
 
@@ -96,33 +97,35 @@ function CompactCard({ project, index }) {
   const Icon = ICONS[project.icon]
   return (
     <Reveal y={20} delay={index * 0.04}>
-      <article className="case-card case-compact card">
-        <div className="case-compact-header">
-          <span className="case-icon-wrap small">
-            <Icon size={16} />
-          </span>
-          <p className="case-tag mono small">{project.tag}</p>
-        </div>
-        <h3 className="case-title small">{project.title}</h3>
-        <p className="case-desc small">{project.desc}</p>
-        <div className="case-tech small">
-          {project.tech.map((t) => (
-            <span key={t} className="chip chip-compact">
-              {t}
+      <TiltCard max={4}>
+        <article className="case-card case-compact card spot">
+          <div className="case-compact-header">
+            <span className="case-icon-wrap small">
+              <Icon size={16} />
             </span>
-          ))}
-        </div>
-        <div className="case-links small">
-          {project.live && (
-            <a className="btn btn-primary btn-sm" href={project.live} target="_blank" rel="noreferrer">
-              <ExternalLink size={13} /> Live
+            <p className="case-tag mono small">{project.tag}</p>
+          </div>
+          <h3 className="case-title small">{project.title}</h3>
+          <p className="case-desc small">{project.desc}</p>
+          <div className="case-tech small">
+            {project.tech.map((t) => (
+              <span key={t} className="chip chip-compact">
+                {t}
+              </span>
+            ))}
+          </div>
+          <div className="case-links small">
+            {project.live && (
+              <a className="btn btn-primary btn-sm" href={project.live} target="_blank" rel="noreferrer">
+                <ExternalLink size={13} /> Live
+              </a>
+            )}
+            <a className="btn btn-ghost btn-sm" href={project.source} target="_blank" rel="noreferrer">
+              <Github size={13} /> Source
             </a>
-          )}
-          <a className="btn btn-ghost btn-sm" href={project.source} target="_blank" rel="noreferrer">
-            <Github size={13} /> Source
-          </a>
-        </div>
-      </article>
+          </div>
+        </article>
+      </TiltCard>
     </Reveal>
   )
 }

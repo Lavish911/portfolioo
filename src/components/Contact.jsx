@@ -4,6 +4,7 @@ import { PROFILE } from '../data/portfolio.js'
 import { toast } from '../lib/toast.js'
 import Magnetic from './Magnetic.jsx'
 import Reveal from './Reveal.jsx'
+import TiltCard from './TiltCard.jsx'
 
 const SOCIALS = [
   { icon: Github, label: 'GitHub', value: '@Lavish911', href: PROFILE.github, external: true },
@@ -61,20 +62,22 @@ export default function Contact() {
         <div className="socials">
           {SOCIALS.map((s, i) => (
             <Reveal key={s.label} delay={0.05 + i * 0.06} y={24}>
-              <a
-                className="card social-tile spot"
-                style={{ '--accent': '#22d3ee' }}
-                href={s.href}
-                target={s.external ? '_blank' : undefined}
-                rel={s.external ? 'noreferrer' : undefined}
-              >
-                <div className="st-top">
-                  <s.icon size={21} />
-                  <ArrowUpRight size={15} className="st-arrow" />
-                </div>
-                <span className="st-label">{s.value}</span>
-                <span className="st-tag mono">{s.label}</span>
-              </a>
+              <TiltCard max={5}>
+                <a
+                  className="card social-tile spot"
+                  style={{ '--accent': '#F5A623' }}
+                  href={s.href}
+                  target={s.external ? '_blank' : undefined}
+                  rel={s.external ? 'noreferrer' : undefined}
+                >
+                  <div className="st-top">
+                    <s.icon size={21} />
+                    <ArrowUpRight size={15} className="st-arrow" />
+                  </div>
+                  <span className="st-label">{s.value}</span>
+                  <span className="st-tag mono">{s.label}</span>
+                </a>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

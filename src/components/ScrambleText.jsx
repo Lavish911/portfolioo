@@ -21,29 +21,29 @@ export function scrambleTo(el, text, dur = 620) {
     return
   }
   const len = text.length
-  if (len === 0) return
+  if (!len) return
   const duration = Math.min(800, Math.max(500, dur))
-  const glyphCache = new Array(len)
-  for (let i = 0; i < len; i++) glyphCache[i] = glyphFor(text[i])
+  const glyphCache = Array.from(text, glyphFor)
   let raf = 0
   const start = performance.now()
+
   const tick = (now) => {
-    const elapsed = now - start
-    const prog = Math.min(elapsed / duration, 1)
+    const prog = Math.min((now - start) / duration, 1)
     const reveal = Math.floor(prog * len)
-    if (elapsed > 0 && (reveal === len || Math.floor(elapsed / 48) % 1 === 0)) {
-      for (let i = reveal; i < len; i++) {
-        if (text[i] !== ' ' && Math.random() < 0.34) glyphCache[i] = glyphFor(text[i])
-      }
+    for (let i = reveal; i < len; i++) {
+      if (text[i] !== ' ' && Math.random() < 0.3) glyphCache[i] = glyphFor(text[i])
     }
     let out = ''
     for (let i = 0; i < len; i++) out += i < reveal ? text[i] : glyphCache[i]
-    el.textContent = out
+    el.textContent = prog < 1 ? out : text
     if (prog < 1) raf = requestAnimationFrame(tick)
-    else el.textContent = text
   }
+
   raf = requestAnimationFrame(tick)
-  return () => cancelAnimationFrame(raf)
+  return () => {
+    cancelAnimationFrame(raf)
+    el.textContent = text
+  }
 }
 
 export default function ScrambleText({ text, className = '', delay = 0 }) {
@@ -51,59 +51,14 @@ export default function ScrambleText({ text, className = '', delay = 0 }) {
   const inView = useInView(ref, { once: true, margin: '-40px', amount: 0.35 })
 
   useEffect(() => {
-    const el = ref.current
-    if (!el || typeof text !== 'string') return
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      el.textContent = text
-      return
-    }
-    if (!inView) return
-    const len = text.length
-    if (len === 0) return
-    const duration = 640
-    const glyphCache = new Array(len)
-    for (let i = 0; i < len; i++) glyphCache[i] = glyphFor(text[i])
-    let raf = 0
-    let timeoutId = 0
-    let cancelled = false
-
-    const startScramble = () => {
-      if (cancelled) return
-      const t0 = performance.now()
-      const tick = (now) => {
-        if (cancelled) return
-        const elapsed = now - t0
-        const prog = Math.min(elapsed / duration, 1)
-        const reveal = Math.floor(prog * len)
-        if (Math.floor(elapsed / 52) % 1 === 0) {
-          for (let i = reveal; i < len; i++) {
-            if (text[i] !== ' ' && Math.random() < 0.28) glyphCache[i] = glyphFor(text[i])
-          }
-        }
-        let out = ''
-        for (let i = 0; i < len; i++) out += i < reveal ? text[i] : glyphCache[i]
-        try {
-          el.textContent = out
-        } catch {}
-        if (prog < 1) raf = requestAnimationFrame(tick)
-        else {
-          try {
-            el.textContent = text
-          } catch {}
-        }
-      }
-      raf = requestAnimationFrame(tick)
-    }
-
-    timeoutId = setTimeout(startScramble, Math.max(0, delay * 1000))
-
+    if (!inView || !ref.current) return
+    let stop
+    const timer = setTimeout(() => {
+      stop = scrambleTo(ref.current, text, 640)
+    }, Math.max(0, delay * 1000))
     return () => {
-      cancelled = true
-      clearTimeout(timeoutId)
-      cancelAnimationFrame(raf)
-      try {
-        if (el) el.textContent = text
-      } catch {}
+      clearTimeout(timer)
+      stop?.()
     }
   }, [inView, text, delay])
 
